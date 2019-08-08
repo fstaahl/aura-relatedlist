@@ -1,0 +1,49 @@
+<!--
+ - Created by takei on 15.6.2018.
+ -->
+
+<aura:component description="RecordViewTablePagination">
+    <aura:attribute type="Integer" name="currentPage" />
+    <aura:attribute type="Integer" name="numOfPages" />
+    <aura:attribute type="Integer" name="total" />
+    <aura:attribute type="Integer[]" name="pageButtons" />
+    <aura:attribute type="String" name="paginationType" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+    <aura:handler name="change" value="{!v.numOfPages}" action="{!c.onInit}" />
+    <aura:handler name="change" value="{!v.currentPage}" action="{!c.onInit}" />
+
+
+    <aura:if isTrue="{!v.numOfPages > 1}">
+        <aura:if isTrue="{!v.paginationType == 'Numeric'}">
+            <lightning:layout multipleRows="false" horizontalAlign="center" verticalAlign="center">
+                <lightning:buttonGroup >
+                    <lightning:button onclick="{!c.prev}" disabled="{!v.currentPage == 1}" class="{!if(v.currentPage == 1, 'inactive','')}">
+                        <lightning:icon iconName="utility:chevronleft" size="x-small"/>
+                    </lightning:button>
+
+                    <aura:iteration items="{!v.pageButtons}" var="page">
+                        <lightning:button label="{!page}" onclick="{!c.changePage}" class="{!if(v.currentPage == page,'pageButton currentPage','pageButton')}"/>
+                    </aura:iteration>
+
+                    <lightning:button onclick="{!c.next}" disabled="{!v.currentPage == v.numOfPages}" class="{!if(v.currentPage == v.numOfPages, 'inactive','')}">
+                        <lightning:icon iconName="utility:chevronright" size="x-small"/>
+                    </lightning:button>
+                </lightning:buttonGroup>
+            </lightning:layout>
+            <aura:set attribute="else">
+                <lightning:layout multipleRows="false" horizontalAlign="center" verticalAlign="center">
+                    <lightning:layoutItem >
+                        <lightning:button disabled="{!v.currentPage == 1}" label="Previous" onclick="{!c.prev}" variant="brand"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem >
+                        <lightning:formattedText value="{!v.total+' Records • Page '+v.currentPage+'/'+v.numOfPages}" class="slds-p-horizontal_medium"/>
+                    </lightning:layoutItem>
+                    <lightning:layoutItem >
+                        <lightning:button disabled="{!v.currentPage == v.numOfPages}" label="Next" onclick="{!c.next}" variant="brand"/>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </aura:set>
+        </aura:if>
+    </aura:if>
+</aura:component>

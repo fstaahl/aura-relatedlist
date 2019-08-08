@@ -1,0 +1,52 @@
+<!--
+ - Created by takei on 14.6.2018.
+ -->
+
+<aura:component description="RecordViewTableRow">
+    <aura:attribute type="Object" name="row" />
+    <aura:attribute type="String" name="sobj"/>
+    <aura:attribute type="Integer" name="columns" />
+    <aura:attribute type="String" name="currencyIsoCode"/>
+    <aura:attribute type="String" name="urlPrefix" default="/" />
+    <aura:attribute type="String" name="environment" />
+    <aura:attribute type="String" name="customComponentName" />
+    <aura:attribute type="Boolean" name="detailsOpen" default="false" />
+    <aura:attribute type="Aura.Component[]" name="details" />
+    <aura:attribute type="Boolean" name="isContentVersion"/>
+
+    <tr class="slds-hint-parent">
+        <aura:iteration var="cell" items="{!v.row.cells}" indexVar="ind">
+            <c:RecordViewTableCell index="{!ind}" cell="{!cell}" currencyIsoCode="{!if(v.row.currencyIsoCode != '', v.row.currencyIsoCode, v.currencyIsoCode)}" urlPrefix="{!v.urlPrefix}"
+                                   isContentVersion="{!v.isContentVersion}" environment="{!v.environment}"/>
+        </aura:iteration>
+        <aura:if isTrue="{!v.isContentVersion}">
+            <td data-label="{!$Label.c.RecordViewTable_Download}" style="text-align:center;">
+                <lightning:buttonIcon iconName="utility:download" variant="bare" size="medium" onclick="{!c.download}"
+                                      alternativeText="{!$Label.c.RecordViewTable_Download}"/>
+            </td>
+        </aura:if>
+        <aura:if isTrue="{!v.customComponentName.length > 0}">
+            <td data-label="{!$Label.c.RecordViewTable_MoreInfo}">
+                <div onclick="{!c.openDetails}" class="iconButton">
+                    <aura:if isTrue="{!v.detailsOpen}">
+                        <lightning:buttonIcon iconName="utility:chevronright" variant="bare" size="medium"
+                                              alternativeText="{!$Label.c.RecordViewTable_Close}" iconClass="rotateCWise"/>
+                        <aura:set attribute="else">
+                            <lightning:buttonIcon iconName="utility:chevrondown" variant="bare" size="medium"
+                                                  alternativeText="{!$Label.c.RecordViewTable_Open}" iconClass="rotateCCWise"/>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </td>
+        </aura:if>
+    </tr>
+    <aura:if isTrue="{!v.detailsOpen}">
+        <tr class="slds-hint-parent">
+            <td colspan="{!if(v.isContentVersion,v.columns + 2,v.columns + 1)}" style="border-top:0;">
+                {!v.details}
+            </td>
+        </tr>
+    </aura:if>
+
+
+</aura:component>

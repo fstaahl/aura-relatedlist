@@ -1,0 +1,13 @@
+<!--
+ - Created by takei on 2.7.2018.
+ -->
+
+<aura:event type="COMPONENT" description="RecordViewTableFilterEvent">
+    <aura:attribute type="String" name="gid" />
+    <aura:attribute type="String" name="type" />
+    <aura:attribute type="String" name="field" />
+    <aura:attribute type="String" name="filterText" />
+    <aura:attribute type="String" name="filterComparator" />
+    <aura:attribute type="Date" name="after" />
+    <aura:attribute type="Date" name="before" />
+</aura:event>

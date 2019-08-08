@@ -1,0 +1,118 @@
+<!--
+ - Created by takei on 14.6.2018.
+ -->
+
+<aura:component description="RecordViewTable" controller="RecordViewTable" access="global"
+                implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName">
+
+    <aura:attribute type="String" name="header" />
+    <aura:attribute type="String" name="headerSize" />
+    <aura:attribute type="String" name="iconName" />
+    <aura:attribute type="String" name="iconSize" />
+    <aura:attribute type="String" name="sobj"/>
+    <aura:attribute type="String" name="fields"/>
+    <aura:attribute type="String" name="fieldsToLabel" />
+    <aura:attribute type="String" name="clause"/>
+    <aura:attribute type="String" name="soqlOrder" />
+    <aura:attribute type="String" name="referenceFields" />
+    <aura:attribute type="String" name="referenceFieldsIndices" />
+    <aura:attribute type="String" name="referenceURLPrefixes" />
+    <aura:attribute type="String" name="environment" />
+    <aura:attribute type="String" name="limitRecords" />
+    <aura:attribute type="String" name="lookupName" />
+    <aura:attribute type="String" name="lookupType" />
+    <aura:attribute type="String" name="xRefLookupName" />
+    <aura:attribute type="String" name="currencyIsoCode" />
+    <aura:attribute type="Boolean" name="currencyFromRecord" />
+    <aura:attribute type="Integer" name="sortIndex" />
+    <aura:attribute type="Boolean" name="sortDESC" />
+    <aura:attribute type="String" name="urlPrefix"  />
+    <aura:attribute type="Boolean" name="isContentVersion"/>
+    <aura:attribute type="String[]" name="fieldsList" />
+    <aura:attribute type="Object[]" name="data" />
+    <aura:attribute type="Object[]" name="page" />
+    <aura:attribute type="Object[]" name="pagedData" />
+    <aura:attribute type="Object[]" name="headers" />
+    <aura:attribute type="Integer" name="numOfPages" default="1" />
+    <aura:attribute type="Integer" name="currentPage" default="1" />
+    <aura:attribute type="Integer" name="recPerPage" />
+    <aura:attribute type="Integer" name="total" default="0" />
+    <aura:attribute type="String" name="columnWidths"/>
+    <aura:attribute type="String[]" name="columnWidthsList" default=""/>
+    <aura:attribute type="String" name="paginationType" />
+    <aura:attribute type="Boolean" name="headersAsFilters" />
+    <aura:attribute type="Map" name="activeFilters" default="" />
+    <aura:attribute type="List" name="activeFiltersIds" default="" />
+    <aura:attribute type="Boolean" name="isRunning" default="false" />
+    <aura:attribute type="String" name="customComponentName" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+    <aura:handler name="change" value="{!v.currentPage}" action="{!c.changePage}" />
+    <aura:handler name="change" value="{!v.sortIndex}" action="{!c.sortTable}" />
+    <aura:handler name="change" value="{!v.sortDESC}" action="{!c.sortTable}" />
+    <aura:handler name="RecordViewTableFilterEvent" event="c:RecordViewTableFilterEvent" action="{!c.onFilter}" />
+
+    <aura:if isTrue="{!v.data.length > 0}">
+        <lightning:layout multipleRows="true">
+            <aura:if isTrue="{!v.header != ''}">
+                <lightning:layoutItem size="12" class="slds-p-bottom_x-small">
+                    <aura:if isTrue="{!v.iconName != ''}">
+                        <lightning:icon iconName="{!v.iconName}" alternativeText="icon" size="{!v.iconSize}" class="tableIcon"/>
+                    </aura:if>
+                    <h2 class="slds-page-header__title" style="{!if(v.headerSize != '','font-size:'+v.headerSize+';','')}">
+                        {!v.header}
+                    </h2>
+                </lightning:layoutItem>
+            </aura:if>
+            <lightning:layoutItem size="12">
+                <table class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout">
+                    <thead>
+                    <tr class="slds-text-title_caps">
+                        <aura:iteration items="{!v.fieldsList}" var="field" indexVar="index">
+                            <aura:if isTrue="{!and(v.columnWidthsList.length > index, v.columnWidthsList.length > 0)}">
+                                <aura:iteration items="{!v.columnWidthsList}" var="colWidth" indexVar="colInd">
+                                    <aura:if isTrue="{!index == colInd}">
+                                        <c:RecordViewTableHeader sobj="{!v.sobj}" field="{!field}" index="{!index}" sortIndex="{!v.sortIndex}" sortDESC="{!v.sortDESC}" colWidth="{!colWidth}" headersAsFilters="{!v.headersAsFilters}" headers="{!v.headers}"/>
+                                    </aura:if>
+                                </aura:iteration>
+                                <aura:set attribute="else">
+                                    <c:RecordViewTableHeader sobj="{!v.sobj}" field="{!field}" index="{!index}" sortIndex="{!v.sortIndex}" sortDESC="{!v.sortDESC}" headersAsFilters="{!v.headersAsFilters}" headers="{!v.headers}"/>
+                                </aura:set>
+                            </aura:if>
+                        </aura:iteration>
+                        <aura:if isTrue="{!v.isContentVersion}">
+                            <th scope="col" title="{!$Label.c.RecordViewTable_Download}" style="width:100px;">
+                                <div class="slds-truncate" title="{!$Label.c.RecordViewTable_Download}">
+                                    {!$Label.c.RecordViewTable_Download}
+                                </div>
+                            </th>
+                        </aura:if>
+                        <aura:if isTrue="{!v.customComponentName.length > 0}">
+                            <th scope="col" style="width: 40px;">
+                            </th>
+                        </aura:if>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <aura:iteration items="{!v.page}" var="row">
+                        <c:RecordViewTableRow isContentVersion="{!v.isContentVersion}" row="{#row}" sobj="{#v.sobj}" currencyIsoCode="{!v.currencyIsoCode}" urlPrefix="{!v.urlPrefix}" environment="{!v.environment}" customComponentName="{!v.customComponentName}" columns="{!v.fieldsList.length}"/>
+                    </aura:iteration>
+                    </tbody>
+                </table>
+            </lightning:layoutItem>
+            <lightning:layoutItem size="12" class="slds-p-top_medium">
+                <c:RecordViewTablePagination currentPage="{!v.currentPage}" numOfPages="{!v.numOfPages}" total="{!v.total}" paginationType="{!v.paginationType}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+        <aura:set attribute="else">
+            <aura:if isTrue="{!v.isRunning}">
+                <lightning:spinner class="tableSpinner" variant="brand" size="medium" alternativeText="{!$Label.c.RecordViewTable_Loading}"/>
+                <aura:set attribute="else">
+                    <h2>
+                        {!$Label.c.RecordViewTable_NoData}
+                    </h2>
+                </aura:set>
+            </aura:if>
+        </aura:set>
+    </aura:if>
+</aura:component>

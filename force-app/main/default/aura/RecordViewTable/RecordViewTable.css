@@ -1,0 +1,10 @@
+/**
+ * Created by takei on 18.6.2018.
+ */
+.THIS h2{
+    display: inline-block;
+    vertical-align: middle;
+}
+.THIS .tableIcon{
+    margin-right: .75rem;
+}

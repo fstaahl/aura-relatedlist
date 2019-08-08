@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>RecordViewTable_After</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RecordViewTable_After</shortDescription>
+        <value>After</value>
+    </labels>
+    <labels>
+        <fullName>RecordViewTable_Before</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RecordViewTable_Before</shortDescription>
+        <value>Before</value>
+    </labels>
+    <labels>
+        <fullName>RecordViewTable_Clear</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RecordViewTable_Clear</shortDescription>
+        <value>Clear</value>
+    </labels>
+    <labels>
+        <fullName>RecordViewTable_Close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RecordViewTable_Close</shortDescription>
+        <value>Close</value>
+    </labels>
+    <labels>
+        <fullName>RecordViewTable_Download</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Download label</shortDescription>
+        <value>Download</value>
+    </labels>
+    <labels>
+        <fullName>RecordViewTable_Filter</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RecordViewTable_Filter</shortDescription>
+        <value>Filter</value>
+    </labels>
+    <labels>
+        <fullName>RecordViewTable_Loading</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Loading</shortDescription>
+        <value>Loading</value>
+    </labels>
+    <labels>
+        <fullName>RecordViewTable_MoreInfo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RecordViewTable_MoreInfo</shortDescription>
+        <value>More info</value>
+    </labels>
+    <labels>
+        <fullName>RecordViewTable_NoData</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No data</shortDescription>
+        <value>No data</value>
+    </labels>
+    <labels>
+        <fullName>RecordViewTable_Open</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RecordViewTable_Open</shortDescription>
+        <value>Open</value>
+    </labels>
+</CustomLabels>

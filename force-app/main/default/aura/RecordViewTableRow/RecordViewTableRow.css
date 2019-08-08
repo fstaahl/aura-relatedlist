@@ -1,0 +1,26 @@
+.THIS .iconButton:hover{
+    cursor:pointer;
+}
+.THIS button:focus{
+    outline: 0;
+    box-shadow: none;
+}
+.THIS .rotateCWise {
+    -webkit-animation:cspin 0.2s linear 1;
+    -moz-animation:cspin 0.2s linear 1;
+    animation:cspin 0.2s linear 1;
+    -webkit-animation-fill-mode: forwards;
+}
+.THIS .rotateCCWise {
+    -webkit-animation:ccspin 0.2s linear 1;
+    -moz-animation:ccspin 0.2s linear 1;
+    animation:ccspin 0.2s linear 1;
+    -webkit-animation-fill-mode: forwards;
+}
+
+    @-moz-keyframes cspin { 100% { -moz-transform: rotate(90deg); } }
+    @-webkit-keyframes cspin { 100% { -webkit-transform: rotate(90deg); } }
+    @keyframes cspin { 100% { -webkit-transform: rotate(90deg); transform:rotate(90deg); } }
+    @-moz-keyframes ccspin { 100% { -moz-transform: rotate(-90deg); } }
+    @-webkit-keyframes ccspin { 100% { -webkit-transform: rotate(-90deg); } }
+    @keyframes ccspin { 100% { -webkit-transform: rotate(-90deg); transform:rotate(-90deg); } }

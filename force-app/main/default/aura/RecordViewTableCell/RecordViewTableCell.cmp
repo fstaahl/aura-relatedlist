@@ -1,0 +1,109 @@
+<!--
+ - Created by takei on 15.6.2018.
+ -->
+
+ <aura:component description="RecordViewTableCell">
+    <aura:attribute type="Object" name="cell" />
+    <aura:attribute type="Integer" name="index" />
+    <aura:attribute type="String" name="currencyIsoCode"/>
+    <aura:attribute type="String" name="urlPrefix" default="/" />
+    <aura:attribute type="String" name="environment" />
+    <aura:attribute type="Boolean" name="isContentVersion"/>
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+
+    <aura:if isTrue="{!v.cell.value != 'null'}">
+        <aura:if isTrue="{!v.index == 0}">
+            <th scope="row" data-label="{!v.cell.label.label}">
+                <div class="slds-truncate" title="{!v.cell.value}">
+                    <aura:if isTrue="{!and(v.urlPrefix != '',v.urlPrefix != null)}">
+                        <a onclick="{!c.nav}">
+                            <aura:if isTrue="{!v.cell.fieldType == 'CURRENCY'}">
+                                <lightning:formattedNumber value="{!v.cell.value}" style="currency" currencyCode="{!v.currencyIsoCode}" />
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!v.cell.fieldType == 'DATETIME' || v.cell.fieldType == 'DATE'}">
+                                        <lightning:formattedDateTime value="{!v.cell.value}" />
+                                        <aura:set attribute="else">
+                                            <aura:if isTrue="{!v.cell.fieldType == 'BOOLEAN'}">
+                                                <lightning:input type="checkbox" readonly="true" checked="{!if(v.cell.value =='true',true,false)}" disabled="true" />
+                                                <aura:set attribute="else">
+                                                    <lightning:formattedText value="{!v.cell.value}" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                        </a>
+                        <aura:set attribute="else">
+                            <aura:if isTrue="{!v.cell.fieldType == 'CURRENCY'}">
+                                <lightning:formattedNumber value="{!v.cell.value}" style="currency" currencyCode="{!v.currencyIsoCode}" />
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!v.cell.fieldType == 'DATETIME' || v.cell.fieldType == 'DATE'}">
+                                        <lightning:formattedDateTime value="{!v.cell.value}" />
+                                        <aura:set attribute="else">
+                                            <aura:if isTrue="{!v.cell.fieldType == 'BOOLEAN'}">
+                                                <lightning:input type="checkbox" readonly="true" checked="{!if(v.cell.value =='true',true,false)}" disabled="true" />
+                                                <aura:set attribute="else">
+                                                    <aura:if isTrue="{!and(v.cell.fieldType == 'REFERENCE', v.cell.referenceUrlPrefix != '')}">
+                                                        <a onclick="{!c.nav}">
+                                                            <lightning:formattedText value="{!v.cell.referenceField}" />
+                                                        </a>
+                                                        <aura:set attribute="else">
+                                                            <aura:if isTrue="{!and(v.cell.fieldType == 'REFERENCE', v.cell.referenceField != '')}">
+                                                                <lightning:formattedText value="{!v.cell.referenceField}" />
+                                                                <aura:set attribute="else">
+                                                                    <lightning:formattedText value="{!v.cell.value}" />
+                                                                </aura:set>
+                                                            </aura:if>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </th>
+            <aura:set attribute="else">
+                <td data-label="{!v.cell.label.label}">
+                    <div class="slds-truncate" title="{!v.cell.value}">
+                        <aura:if isTrue="{!v.cell.fieldType == 'CURRENCY'}">
+                            <lightning:formattedNumber value="{!v.cell.value}" style="currency" currencyCode="{!v.currencyIsoCode}" />
+                            <aura:set attribute="else">
+                                <aura:if isTrue="{!v.cell.fieldType == 'DATETIME' || v.cell.fieldType == 'DATE'}">
+                                    <lightning:formattedDateTime value="{!v.cell.value}" />
+                                    <aura:set attribute="else">
+                                        <aura:if isTrue="{!v.cell.fieldType == 'BOOLEAN'}">
+                                            <lightning:input type="checkbox" readonly="true" checked="{!if(v.cell.value =='true',true,false)}" disabled="true"/>
+                                            <aura:set attribute="else">
+                                                <aura:if isTrue="{!and(v.cell.fieldType == 'REFERENCE', v.cell.referenceUrlPrefix != '')}">
+                                                    <a onclick="{!c.nav}">
+                                                        <lightning:formattedText value="{!v.cell.referenceField}" />
+                                                    </a>
+                                                    <aura:set attribute="else">
+                                                        <aura:if isTrue="{!and(v.cell.fieldType == 'REFERENCE', v.cell.referenceField != '')}">
+                                                            <lightning:formattedText value="{!v.cell.referenceField}" />
+                                                            <aura:set attribute="else">
+                                                                <lightning:formattedText value="{!v.cell.value}" />
+                                                            </aura:set>
+                                                        </aura:if>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </td>
+            </aura:set>
+        </aura:if>
+        <aura:set attribute="else">
+            <td data-label="{!v.cell.label.label}"></td>
+        </aura:set>
+    </aura:if>
+</aura:component>

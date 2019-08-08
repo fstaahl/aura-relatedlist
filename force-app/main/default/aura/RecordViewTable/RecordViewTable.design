@@ -1,0 +1,144 @@
+<!--
+ - Created by takei on 14.6.2018.
+ -->
+
+<design:component>
+    <design:attribute name="header"
+                      label="Header"
+                      default="Table header" />
+
+    <design:attribute name="headerSize"
+                      label="Header font size"
+                      default="1.125rem"
+                      description="Leave blank if you want this to be controller by slds."/>
+
+    <design:attribute name="iconName"
+                      label="Icon name"
+                      default="standard:case"
+                      description="See https://www.lightningdesignsystem.com/icons for icons."/>
+
+    <design:attribute name="iconSize"
+                      label="Icon size"
+                      default="small"
+                      dataSource="xx-small,x-small,small,medium,large" />
+
+    <design:attribute name="sobj"
+                      label="sObject API name"
+                      default="Case"
+                      required="true"/>
+
+    <design:attribute name="fields"
+                      label="Fields API names"
+                      default="CaseNumber,AccountId,ContactId"
+                      required="true"/>
+                      
+    <design:attribute name="fieldsToLabel"
+                      label="Fields to display as labels"
+                      default=""
+                      required="false"
+                      description="Comma separated list of picklist fields to display as labels instead of values. Write in same format as above in the fields."/>
+
+    <design:attribute name="clause"
+                      label="WHERE clause of the SOQL"
+                      default="AccountId != null AND ContactId != null"/>
+
+    <design:attribute name="soqlOrder"
+                      label="SOQL Order by field"
+                      default="CaseNumber" />
+
+    <design:attribute name="limitRecords"
+                      default="1000"
+                      label="Limit records returned"
+                      description="Max 50 000 records can be returned from SOQL." />
+
+    <design:attribute name="urlPrefix"
+                      default="/lightning/r/Case/"
+                      label="URL Prefix"
+                      description="If value is inserted, first column will work as an URL to the record page." />
+
+    <design:attribute name="isContentVersion"
+                      default="false"
+                      label="Content Version Download"
+                      description="Check this if you are displaying ContentVersion records and would like to provide a download button" />
+
+    <design:attribute name="referenceFields"
+                      default="Account.Name,Contact.Firstname"
+                      label="Fields for reference fields"
+                      description="Comma separated list. Fields from reference fields. In case you have chosen a reference field to be shown in the table, and you want it to display other than Id field of that Field, specify the field here." />
+
+    <design:attribute name="referenceFieldsIndices"
+                      default="1,2"
+                      label="Indices of reference fields"
+                      description="Comma separated list. Required if you specified Fields for reference fields. Put here the indices of the reference fields in the Fields API names section, first index is 0" />
+
+    <design:attribute name="referenceURLPrefixes"
+                      default="/lightning/r/Account/,/lightning/r/Contact/"
+                      label="URL Prefixes for References"
+                      description="Comma separated list of URL Prefixes for the Reference IDs." />
+
+    <design:attribute name="environment"
+                      default="Lightning Experience"
+                      label="Environment"
+                      description="Choose in which environment the component is used."
+                      dataSource="Lightning Experience,Community" />
+
+    <design:attribute name="lookupName"
+                      default=""
+                      label="Lookup API name (Related lists)"
+                      description="The name of a lookup field for related list. For example when this component exists on Account page, and it is used to display Opportunities, use the lookup field name from Opportunity to Account" />
+
+    <design:attribute name="lookupType"
+                      default="straight"
+                      label="Lookup Type"
+                      datasource="straight,parallel,cross-reference"
+                      description="Normal lookup is straight. Use parallel when you want to display other records who have the same record as a lookup. For example if you use the component on Case record page, and you want to display all cases with same Account, then use parallel." />
+
+    <design:attribute name="xRefLookupName"
+                      default=""
+                      label="Cross reference lookup field name"
+                      description="When used to display cross reference related list use the API name of the origin. For example, if this component is used on Case record page to display records that are not related to the Case, but are related to same Account as the Case is, then use the lookup API name of the Case object to Account." />
+
+    <design:attribute name="currencyIsoCode"
+                      label="Currency ISO code"
+                      default="EUR" />
+
+    <design:attribute name="currencyFromRecord"
+                      label="Use CurrencyIsoCode from Record"
+                      default="false"
+                      description="Use the CurrencyIsoCode from record instead of the one above. CurrencyIsoCode field must exist in the sObject." />
+
+    <design:attribute name="sortIndex"
+                      default="0"
+                      required="true"
+                      label="Initial sort by column index"
+                      description="Indices starts from 0." />
+
+    <design:attribute name="sortDESC"
+                      default="true"
+                      required="true"
+                      label="Initially sort by descending" />
+
+    <design:attribute name="columnWidths"
+                      default="auto,200px,20%"
+                      label="Column widths"
+                      description="Comma separated list of CSS compliant column widths, for example: 100px,20%,30rem,auto" />
+
+    <design:attribute name="recPerPage"
+                      default="10"
+                      label="Records per page"
+                      required="true" />
+
+    <design:attribute name="paginationType"
+                      label="Pagination type"
+                      dataSource="Numeric,Simple"
+                      default="Numeric" />
+
+    <design:attribute name="headersAsFilters"
+                      label="Headers as Filters"
+                      default="false"/>
+
+    <design:attribute name="customComponentName"
+                      label="Custom component as row detail"
+                      default=""
+                      description="Custom component name to be used as expandable detail row for each line. The component must have an attribute named row and type as Object. The row attribute will have properties named as recordId,sObjectName and array called cells. Each cell has properties: recordId,sObjectName,apiName,label,value,fieldType,referenceField,referenceUrlPrefix." />
+</design:component>

@@ -1,0 +1,42 @@
+/**
+ * Created by takei on 15.6.2018.
+ */
+.THIS:hover {
+    cursor:pointer;
+}
+.THIS .dateRangeBox{
+    background-color: white;
+    border: 1px solid rgb(221, 219, 218);
+    border-radius: .25rem;
+    position: absolute;
+    z-index: 99;
+}
+.THIS button.slds-button.slds-button_icon-border{
+    width: 100%;
+}
+.THIS label{
+    width: 100%;
+}
+.THIS label:hover{
+    cursor:pointer;
+}
+.THIS div.slds-datepicker.slds-dropdown{
+    max-width: unset;
+}
+.THIS .hoverIcon{
+    display:none;
+}
+.THIS label:hover>.hoverIcon,
+.THIS div:hover>.hoverIcon{
+    display:inline-block;
+}
+.THIS .comparator-button{
+    font-size: 14px;
+    font-weight: 900;
+}
+.THIS .selected svg{
+    fill: white;
+}
+.THIS .selected{
+    background-color: t(colorBrand);
+}

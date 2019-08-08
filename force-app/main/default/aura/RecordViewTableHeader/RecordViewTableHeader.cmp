@@ -1,0 +1,88 @@
+<!--
+ - Created by takei on 15.6.2018.
+ -->
+
+<aura:component description="RecordViewTableHeader">
+    <aura:attribute type="String" name="field" />
+    <aura:attribute type="String" name="sobj" />
+    <aura:attribute type="Object" name="header" />
+    <aura:attribute type="Object[]" name="headers" />
+    <aura:attribute type="Integer" name="index" />
+    <aura:attribute type="Integer" name="sortIndex" />
+    <aura:attribute type="Boolean" name="sortDESC" />
+    <aura:attribute type="String" name="colWidth" default="" />
+    <aura:attribute type="Boolean" name="headersAsFilters" />
+    <aura:attribute type="String" name="filterText" default="" />
+    <aura:attribute type="String" name="filterComparator" default="gt" />
+    <aura:attribute type="Date" name="after" default="" />
+    <aura:attribute type="Date" name="before" default="" />
+    <aura:attribute type="Boolean" name="showDates" default="false" />
+    <aura:handler name="change" value="{!v.headers}" action="{!c.onInit}" />
+    <aura:handler name="change" value="{!v.filterText}" action="{!c.doFilter}" />
+    <aura:handler name="change" value="{!v.after}" action="{!c.doFilter}" />
+    <aura:handler name="change" value="{!v.before}" action="{!c.doFilter}" />
+    <aura:registerEvent name="RecordViewTableFilterEvent" type="c:RecordViewTableFilterEvent" />
+
+    <th scope="col" onclick="{!if(v.headersAsFilters,'',c.sortTable)}" style="{!if(v.colWidth.length > 0,'width:'+v.colWidth,'')}" title="{!v.header.label}">
+        <aura:if isTrue="{!v.headersAsFilters}">
+            <aura:if isTrue="{!v.header.type == 'DATE' || v.header.type == 'DATETIME'}">
+                <div class="slds-form-element slds-truncate">
+                    <label class="slds-form-element__label slds-no-flex" onclick="{!c.sortTable}">
+                        {!v.header.label}
+                        <aura:if isTrue="{!v.index == v.sortIndex}">
+                            <lightning:icon iconName="{!if(v.sortDESC,'utility:arrowdown','utility:arrowup')}" size="xx-small"/>
+                            <aura:set attribute="else">
+                                <lightning:icon iconName="utility:arrowdown" size="xx-small" class="hoverIcon"/>
+                                <lightning:icon iconName="utility:arrowup" size="xx-small" class="hoverIcon"/>
+                            </aura:set>
+                        </aura:if>
+                    </label>
+                    <div class="slds-form-element__control slds-grow">
+                        <lightning:buttonIcon iconName="utility:down" class="{!if(or(v.after != null, v.before != null),'selected', '')}" alternativeText="Date filter" onclick="{!c.showHideDates}"/>
+                    </div>
+                </div>
+                <aura:if isTrue="{!v.showDates}">
+                    <div class="dateRangeBox slds-p-around_small">
+                        <lightning:input label="{#$Label.c.RecordViewTable_After}" value="{!v.after}" type="date"/>
+                        <lightning:input label="{#$Label.c.RecordViewTable_Before}" value="{!v.before}" type="date"/>
+                        <lightning:button label="{#$Label.c.RecordViewTable_Clear}" onclick="{!c.clearDates}" disabled="{!and(v.after == null, v.before == null)}" variant="base" />
+                    </div>
+                </aura:if>
+                <aura:set attribute="else">
+                    <div class="slds-form-element slds-truncate">
+                        <label class="slds-form-element__label slds-no-flex" onclick="{!c.sortTable}">
+                            {!v.header.label}
+                            <aura:if isTrue="{!v.index == v.sortIndex}">
+                                <lightning:icon iconName="{!if(v.sortDESC,'utility:arrowdown','utility:arrowup')}" size="xx-small"/>
+                                <aura:set attribute="else">
+                                    <lightning:icon iconName="utility:arrowdown" size="xx-small" class="hoverIcon"/>
+                                    <lightning:icon iconName="utility:arrowup" size="xx-small" class="hoverIcon"/>
+                                </aura:set>
+                            </aura:if>
+                        </label>
+                        <div class="slds-form-element__control slds-grow">
+                            <lightning:layout multipleRows="false">
+                                <aura:if isTrue="{!or(or(or(v.header.type == 'CURRENCY',v.header.type == 'PERCENT'),v.header.type == 'DOUBLE'),v.header.type == 'INTEGER')}">
+                                    <lightning:button class="comparator-button" label="{!if(v.filterComparator == 'equal','&#61;',if(v.filterComparator == 'gt','&gt;',if(v.filterComparator == 'lt','&lt;',if(v.filterComparator == 'goet','&#8805;','&#8804;'))))}" onclick="{!c.changeComparator}"/>
+                                </aura:if>
+                                <lightning:input aura:id="filterInput" type="{!if(or(or(or(v.header.type == 'CURRENCY',v.header.type == 'PERCENT'),v.header.type == 'DOUBLE'),v.header.type == 'INTEGER'),'number','search')}" label="{!v.header.label}" value="{!v.filterText}" variant="label-hidden" placeholder="{!$Label.c.RecordViewTable_Filter}"/>
+                            </lightning:layout>
+                        </div>
+                    </div>
+                </aura:set>
+            </aura:if>
+            <aura:set attribute="else">
+                <div class="slds-truncate" title="{!v.header.label}">{!v.header.label}
+                    <aura:if isTrue="{!v.index == v.sortIndex}">
+                        <lightning:icon iconName="{!if(v.sortDESC,'utility:arrowdown','utility:arrowup')}" size="xx-small"/>
+                        <aura:set attribute="else">
+                            <lightning:icon iconName="utility:arrowdown" size="xx-small" class="hoverIcon"/>
+                            <lightning:icon iconName="utility:arrowup" size="xx-small" class="hoverIcon"/>
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </aura:set>
+        </aura:if>
+    </th>
+
+</aura:component>

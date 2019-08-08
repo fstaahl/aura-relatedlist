@@ -1,0 +1,8 @@
+<aura:documentation>
+    <aura:description>
+        <p>A <code>c:RecordViewTable</code> is a configurable dynamic and reusable datatable component with multiple features.</p>
+    </aura:description>
+    <aura:example name="RecordViewTable1" ref="c:RecordViewTableExample1" label="Displaying simple data with lookups">
+
+    </aura:example>
+</aura:documentation>
